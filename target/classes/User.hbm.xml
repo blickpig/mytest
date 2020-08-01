@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <!-- 建立类和表的映射关系-->
+
+    <!--
+    1. class标签：类和表的映射
+            name：类的全限定类名
+            table：表名（注：如果实体类的名称与数据表的名称一致，该属性可以省略）
+            catalog: 数据库名称（可以省略）
+      -->
+    <class name="com.xin.pojo.User" table="t_user">
+        <!-- id标签：类中的属性与表中的主键的对应
+                name：类中属性名
+                column：表中字段名
+                length：长度（数据表中字段的长度）
+                type：类型，（java中的数据类型、hibernate、sql）-->
+        <id name="user_id" column="user_id">
+            <!--generator 主键生成策略 -->
+            <generator class="native"></generator>
+        </id>
+        <!-- property标签：类中的属性与表中的字段的对应
+               name：类中属性名
+               column：表中字段名
+               length：长度（数据表中字段的长度）
+               type：类型，（java中的数据类型、hibernate、sql）-->
+                <property name="user_name" column="user_name"></property>
+                <property name="user_password" column="user_password"></property>
+<!--
+    在用户里面表示所有的角色，set标签
+    name属性：角色set集合名称
+    table属性；第三张表名称
+-->
+        <set name="setRole" table="user_role" cascade="save-update,delete">
+<!--            key标签里面配置
+        配置当前映射文件在第三张表外键名称
+
+-->
+            <key column="userid"></key>
+            <!--
+            class:角色实体类全路径
+            Column:角色在第三张表外键名称
+            -->
+            <many-to-many class="com.xin.pojo.Role" column="roleid"></many-to-many>
+        </set>
+
+    </class>
+
+</hibernate-mapping>
+
